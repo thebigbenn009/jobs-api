@@ -1,12 +1,13 @@
-const mongoose = require('mongoose')
+const mongoose = require("mongoose");
 
 const connectDB = (url) => {
-  return mongoose.connect(url, {
-    useNewUrlParser: true,
-    useCreateIndex: true,
+  mongoose.connect(url, {
     useFindAndModify: false,
     useUnifiedTopology: true,
-  })
-}
+    useNewUrlParser: true,
+    useCreateIndex: true,
+  });
+  return mongoose.connect(url);
+};
 
-module.exports = connectDB
+module.exports = connectDB;
