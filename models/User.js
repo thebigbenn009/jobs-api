@@ -8,7 +8,7 @@ const UserSchema = new mongoose.Schema({
   },
   email: {
     type: String,
-    required: [true, "please provide a email"],
+    required: [true, "please provide an email"],
     match: [
       /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
       "Please provide valid email",
@@ -19,7 +19,7 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: [true, "please provide a password"],
     minlength: 6,
-    maxlength: 12,
+    // maxlength: 12,
   },
 });
 module.exports = mongoose.model("User", UserSchema);

@@ -15,7 +15,7 @@ const authRouter = require("./routes/auth");
 const jobsRouter = require("./routes/jobs");
 const connectDB = require("./db/connect");
 //middleware
-app.use("/api/vi/auth", authRouter);
+app.use("/api/auth", authRouter);
 app.use("/api/v1/jobs", jobsRouter);
 app.use(notFoundMiddleware);
 app.use(errorHandlerMiddleware);
