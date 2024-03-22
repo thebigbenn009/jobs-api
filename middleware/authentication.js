@@ -15,7 +15,8 @@ const auth = async (req, res, next) => {
     req.user = { userID: payload.userID, name: payload.name };
     next();
   } catch (error) {
-    throw new UnauthenticatedError("Authentication Invalid");
+    console.log(error);
+    throw new UnauthenticatedError("Authentication Invwalid");
   }
 };
 module.exports = auth;
