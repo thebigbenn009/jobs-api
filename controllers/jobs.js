@@ -18,9 +18,9 @@ const getJob = async (req, res) => {
   res.status(StatusCodes.OK).json({ job });
 };
 const createJob = async (req, res) => {
-  req.body.createdBy = req.user.userID;
   console.log(req.body);
   const job = await Job.create(req.body);
+  req.body.createdBy = req.user.userID;
   res.status(StatusCodes.CREATED).json({ job });
 };
 const updateJob = async (req, res) => {
