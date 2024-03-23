@@ -3,10 +3,6 @@ const { BadRequestError, UnauthenticatedError } = require("../errors");
 const User = require("../models/User");
 
 const register = async (req, res) => {
-  // const { name, email, password } = req.body;
-  // const salt = await bcrypt.genSalt(10);
-  // const hashedPasswrord = await bcrypt.hash(password, salt);
-  // const tempUser = { name, email, password: hashedPasswrord };
   const user = await User.create({ ...req.body });
   const token = user.createJWT();
   res.status(StatusCodes.CREATED).json({
