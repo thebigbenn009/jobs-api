@@ -4,9 +4,12 @@ require("dotenv").config();
 const app = express();
 const registerRouter = require("./routes/registerRoute");
 
+const errorHandlerMiddleware = require("./middleware/errorHandlerMiddleware");
+
 //middleware
 app.use(express.json());
 app.use("/api/auth/", registerRouter);
+app.use(errorHandlerMiddleware);
 //route
 app.get("/", (req, res) => {
   res.send("Hello World");
