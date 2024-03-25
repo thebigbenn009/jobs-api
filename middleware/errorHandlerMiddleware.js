@@ -1,5 +1,5 @@
 const { object } = require("joi");
-const CustomAPIError = require("../error/customError");
+
 const { StatusCodes } = require("http-status-codes");
 
 const errorHandlerMiddleware = (err, req, res, next) => {
