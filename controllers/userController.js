@@ -1,4 +1,3 @@
-const BadRequestError = require("../error/badRequestError");
 const User = require("../model/userModel");
 const { StatusCodes } = require("http-status-codes");
 
