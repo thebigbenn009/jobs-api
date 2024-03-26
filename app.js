@@ -4,7 +4,7 @@ require("express-async-errors");
 const connectDB = require("./db/db");
 const app = express();
 const cors = require("cors");
-const userRoute = require("./routes/registerRoute");
+const userRoute = require("./routes/userRoute");
 
 const errorHandlerMiddleware = require("./middleware/errorHandlerMiddleware");
 
