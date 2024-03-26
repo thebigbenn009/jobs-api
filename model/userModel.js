@@ -26,5 +26,17 @@ UserSchema.pre("save", async function () {
   const salt = await bcrypt.genSalt(10);
   user.password = await bcrypt.hash(user.password, salt);
 });
+UserSchema.methods.generateJWT = function () {
+  const user = this;
+  const token = jwt.sign(
+    {
+      id: user._id,
+      email: user.email,
+    },
+    process.env.JWT_SECRET,
+    { expiresIn: "24h" }
+  );
+  return token;
+};
 const User = mongoose.model("User", UserSchema);
 module.exports = User;
