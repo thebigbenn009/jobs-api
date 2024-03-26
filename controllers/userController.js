@@ -33,12 +33,12 @@ const loginUser = async (req, res) => {
   if (!isPasswordCorrect) {
     throw new UnauthorizedError("worng password!");
   }
-  //Generate token
-  const token = user.generateJWT();
-  const info = jwt.verify(token, process.env.JWT_SECRET);
-  console.log(info);
-  console.log(req.headers);
-  const userDetails = { name: user.name, id: user._id, token };
+
+  const userDetails = {
+    id: req.userInfo.userID,
+    email: req.userInfo.email,
+    token: req.userInfo.token,
+  };
   res.status(StatusCodes.OK).json({ userDetails });
 };
 module.exports = { registerUser, loginUser };
