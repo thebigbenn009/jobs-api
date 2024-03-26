@@ -15,22 +15,29 @@ const registerUser = async (req, res) => {
 
 const loginUser = async (req, res) => {
   const { email, password } = req.body;
-  const user = await User.findOne({ email });
 
-  const isPasswordCorrect = await user.comparePasswords(password);
-
+  // Validate email and password
   if (!email || !password) {
     throw new BadRequestError("please fill both email and password fields.");
   }
+
+  // Find user by email
+  const user = await User.findOne({ email });
+  // Check if user exists
   if (!user) {
     throw new UnauthorizedError("Invalid credentials");
   }
+  // Compare passwords
+  const isPasswordCorrect = await user.comparePasswords(password);
+
   if (!isPasswordCorrect) {
     throw new UnauthorizedError("worng password!");
   }
+  //Generate token
   const token = user.generateJWT();
   const info = jwt.verify(token, process.env.JWT_SECRET);
   console.log(info);
+  console.log(req.headers);
   const userDetails = { name: user.name, id: user._id, token };
   res.status(StatusCodes.OK).json({ userDetails });
 };
