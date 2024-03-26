@@ -6,6 +6,6 @@ const registerUser = async (req, res) => {
   const token = user.generateJWT();
   console.log(token);
 
-  res.status(StatusCodes.CREATED).json({ user });
+  res.status(StatusCodes.CREATED).json({ user, token });
 };
 module.exports = { registerUser };
