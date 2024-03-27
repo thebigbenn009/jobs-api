@@ -6,19 +6,37 @@ const UnauthorizedError = require("../error/unauthorizedError");
 
 const getAllJobs = async (req, res) => {
   const id = req.userInfo.userID;
-  console.log(id);
-  const jobs = await Job.findById({ _id: id });
-  res.status(StatusCodes.OK).json({ count: jobs?.length, jobs });
+
+  const user = await User.findById(id);
+
+  const jobs = await Job.find({ createdBy: id });
+  res
+    .status(StatusCodes.OK)
+    .json({ user: user.name, count: jobs.length, jobs });
 };
 
 const createJob = async (req, res) => {
   const id = req.userInfo.userID;
+  const user = await User.findById(id);
 
   const { position, company } = req.body;
   if (!position || !company) {
     throw new BadRequestError("Please fill the required fields");
   }
+  console.log(user);
   const job = await Job.create({ ...req.body, createdBy: id });
-  res.status(StatusCodes.CREATED).json({ job });
+  res.status(StatusCodes.CREATED).json({ job, user: user.name });
 };
-module.exports = { getAllJobs, createJob };
+
+const updateJob = async (req, res) => {
+  const id = req.userInfo.userID;
+  const { company, position } = req.body;
+  if (!company || !position) {
+    throw new BadRequestError("Please fill out the required fields");
+  }
+  const updatedJob = await Job.findOneAndUpdate({ createdBy: id }, req.body, {
+    new: true,
+  });
+  res.status(StatusCodes.OK).json({ job: updatedJob });
+};
+module.exports = { getAllJobs, createJob, updateJob };
