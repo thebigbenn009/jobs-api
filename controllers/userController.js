@@ -39,6 +39,7 @@ const loginUser = async (req, res) => {
   //   email: req.userInfo.email,
   //   token: req.userInfo.token,
   // };
+
   res.status(StatusCodes.OK).json({ user, token });
 };
 module.exports = { registerUser, loginUser };
