@@ -5,6 +5,7 @@ const connectDB = require("./db/db");
 const app = express();
 const cors = require("cors");
 const userRoute = require("./routes/userRoute");
+const jobRoute = require("./routes/jobRoute");
 
 const errorHandlerMiddleware = require("./middleware/errorHandlerMiddleware");
 
@@ -12,6 +13,7 @@ const errorHandlerMiddleware = require("./middleware/errorHandlerMiddleware");
 app.use(express.json());
 // app.use(cors());
 app.use("/api/auth/", userRoute);
+app.use("/api/v1/", jobRoute);
 
 app.use(errorHandlerMiddleware);
 
