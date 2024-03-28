@@ -30,13 +30,21 @@ const createJob = async (req, res) => {
 
 const updateJob = async (req, res) => {
   const id = req.userInfo.userID;
-  const { company, position } = req.body;
+  const { company, position, status } = req.body;
   if (!company || !position) {
     throw new BadRequestError("Please fill out the required fields");
   }
-  const updatedJob = await Job.findOneAndUpdate({ createdBy: id }, req.body, {
-    new: true,
-  });
+  const updatedJob = await Job.findOneAndUpdate(
+    { createdBy: id },
+    { company, position, status },
+    {
+      new: true,
+      runValidators: true,
+    }
+  );
+  if (!updateJob) {
+    throw new N();
+  }
   res.status(StatusCodes.OK).json({ job: updatedJob });
 };
 module.exports = { getAllJobs, createJob, updateJob };
