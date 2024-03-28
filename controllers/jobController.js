@@ -3,6 +3,7 @@ const Job = require("../model/jobModel");
 const { StatusCodes } = require("http-status-codes");
 const User = require("../model/userModel");
 const UnauthorizedError = require("../error/unauthorizedError");
+const NotFoundError = require("../error/not-found-error");
 
 const getAllJobs = async (req, res) => {
   const id = req.userInfo.userID;
@@ -17,6 +18,7 @@ const getAllJobs = async (req, res) => {
 
 const createJob = async (req, res) => {
   const id = req.userInfo.userID;
+
   const user = await User.findById(id);
 
   const { position, company } = req.body;
@@ -30,20 +32,21 @@ const createJob = async (req, res) => {
 
 const updateJob = async (req, res) => {
   const id = req.userInfo.userID;
-  const { company, position, status } = req.body;
-  if (!company || !position) {
-    throw new BadRequestError("Please fill out the required fields");
-  }
+  const { id: jobID } = req.params;
+  const { company, position } = req.body;
+  //   if (!company || !position) {
+  //     throw new BadRequestError("Please fill out the required fields");
+  //   }
   const updatedJob = await Job.findOneAndUpdate(
-    { createdBy: id },
-    { company, position, status },
+    { _id: jobID, createdBy: id },
+    req.body,
     {
       new: true,
       runValidators: true,
     }
   );
-  if (!updateJob) {
-    throw new N();
+  if (!updatedJob) {
+    throw new NotFoundError("Job not found!");
   }
   res.status(StatusCodes.OK).json({ job: updatedJob });
 };

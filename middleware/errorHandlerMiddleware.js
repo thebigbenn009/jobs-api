@@ -9,11 +9,16 @@ const errorHandlerMiddleware = (err, req, res, next) => {
     customError.message = Object.values(err.errors)
       .map((error) => error.message)
       .join(", ");
-    customError.message = 400;
+    customError.statusCode = StatusCodes.BAD_REQUEST;
   }
+
   if (err.code && err.code === 11000) {
     customError.message = `${err.keyValue.email} has already been chosen. Please try another email.`;
-    customError.statusCode = 400;
+    customError.statusCode = StatusCodes.BAD_REQUEST;
+  }
+  if (err.name === "CastError") {
+    customError.message = `No job found with id ${err.value}`;
+    customError.statusCode = StatusCodes.BAD_REQUEST;
   }
   return res
     .status(customError.statusCode)
