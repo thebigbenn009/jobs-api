@@ -29,7 +29,16 @@ const createJob = async (req, res) => {
   const job = await Job.create({ ...req.body, createdBy: id });
   res.status(StatusCodes.CREATED).json({ job, user: user.name });
 };
+const getJob = async (req, res) => {
+  const jobID = req.params.id;
+  const userID = req.userInfo.userID;
+  const job = await Job.findOne({ _id: jobID, createdBy: userID });
+  if (!job) {
+    throw new BadRequestError("Job not found");
+  }
 
+  res.status(StatusCodes.OK).json({ job });
+};
 const updateJob = async (req, res) => {
   const id = req.userInfo.userID;
   const { id: jobID } = req.params;
@@ -50,4 +59,4 @@ const updateJob = async (req, res) => {
   }
   res.status(StatusCodes.OK).json({ job: updatedJob });
 };
-module.exports = { getAllJobs, createJob, updateJob };
+module.exports = { getAllJobs, createJob, updateJob, getJob };
