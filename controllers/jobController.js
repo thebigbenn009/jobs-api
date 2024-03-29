@@ -69,7 +69,7 @@ const deleteJob = async (req, res) => {
     throw new BadRequestError("Job not found");
   }
   res.status(StatusCodes.OK).json({
-    msg: "Job successfully deleted",
+    msg: "Job successfully ",
   });
 };
 module.exports = { getAllJobs, createJob, updateJob, getJob, deleteJob };
